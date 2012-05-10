@@ -42,7 +42,8 @@ public class Game extends Activity {
     private Sensor accelerometer;
     private PowerManager powerManager;
     private WakeLock wakeLock;
-    private boolean shallDraw;
+    
+    private boolean gamePaused;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,7 @@ public class Game extends Activity {
             finalHole = new Hole(30f, Color.BLUE,300f,600f);
             sinkHoles = new ArrayList<Hole>();
             
-            shallDraw = true;
+            gamePaused = false;
             
             initiateBoard();
         }
@@ -193,7 +194,7 @@ public class Game extends Activity {
         }
         
         private void showFinalMenu() {
-        	shallDraw = false;
+        	gamePaused = true;
         	
         	// Bygg upp slutmenyn som en dialog
         	AlertDialog.Builder dialog = new AlertDialog.Builder(Game.this);
@@ -328,50 +329,50 @@ public class Game extends Activity {
         
         @Override
         protected void onDraw(Canvas canvas) {
-        	if (shallDraw) {
-	            final float sensX = sensorX;
-	            final float sensY = sensorY;
-	            Paint paint = new Paint();
-	            
-	            // Kolla kollisioner
-	            checkCollisions(sensX, sensY);
-	            
-	            // Sätt bakgrunden
-	            paint.setStyle(Paint.Style.FILL);
-	            paint.setColor(Color.DKGRAY);
-	            canvas.drawPaint(paint);
-	            
-	            // Rita upp alla väggar
-	            for(Wall wall : walls) {
-	                paint.setColor(wall.getColor());
-	                canvas.drawRect(wall.getPosX1(), wall.getPosY1(), wall.getPosX2(), wall.getPosY2(), paint);
-	            }
-	            
-	            //Rita upp hålen
-	            for(Hole hole : sinkHoles){
-	            	paint.setColor(hole.getColor());
-	            	paint.setAntiAlias(true);
-	            	canvas.drawCircle(hole.getPosX(), hole.getPosY(), hole.getRadius(), paint);
-	            }
-	            
-	            //Rita ut finalHole
-	            paint.setColor(finalHole.getColor());
-	            paint.setAntiAlias(true);
-	            canvas.drawCircle(finalHole.getPosX(), finalHole.getPosY(), finalHole.getRadius(), paint);
-	            
-	            // Hämta värdena för bollen
-	            final float posX = ball.getPosX();
-	            final float posY = ball.getPosY();
-	            final float radius = ball.getRadius();
-	            final int color = ball.getColor();
-	            
-	            // Rita upp bollen
-	            paint.setColor(color);
-	            paint.setAntiAlias(true);
-	            canvas.drawCircle(posX, posY, radius, paint);
-        	}
-        	
-	        // Rita om allt igen
+            final float sensX = sensorX;
+            final float sensY = sensorY;
+            Paint paint = new Paint();
+            
+            if (!gamePaused) {
+            	// Kolla kollisioner och uppdatera bollens position
+            	checkCollisions(sensX, sensY);
+            }
+            
+            // Sätt bakgrunden
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.DKGRAY);
+            canvas.drawPaint(paint);
+            
+            // Rita upp alla väggar
+            for(Wall wall : walls) {
+                paint.setColor(wall.getColor());
+                canvas.drawRect(wall.getPosX1(), wall.getPosY1(), wall.getPosX2(), wall.getPosY2(), paint);
+            }
+            
+            //Rita upp hålen
+            for(Hole hole : sinkHoles){
+            	paint.setColor(hole.getColor());
+            	paint.setAntiAlias(true);
+            	canvas.drawCircle(hole.getPosX(), hole.getPosY(), hole.getRadius(), paint);
+            }
+            
+            //Rita ut finalHole
+            paint.setColor(finalHole.getColor());
+            paint.setAntiAlias(true);
+            canvas.drawCircle(finalHole.getPosX(), finalHole.getPosY(), finalHole.getRadius(), paint);
+            
+            // Hämta värdena för bollen
+            final float posX = ball.getPosX();
+            final float posY = ball.getPosY();
+            final float radius = ball.getRadius();
+            final int color = ball.getColor();
+            
+            // Rita upp bollen
+            paint.setColor(color);
+            paint.setAntiAlias(true);
+            canvas.drawCircle(posX, posY, radius, paint);
+	        
+            // Rita om allt igen
 	        invalidate();
         	
         }
@@ -381,10 +382,15 @@ public class Game extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	// Pausa uppritningen av spelet
-    	shallDraw = false;
     	MenuInflater menuInflater = getMenuInflater();
     	menuInflater.inflate(R.menu.ingamemenu, menu);
+    	return true;
+    }
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	// Pausa uppritningen av spelet
+    	gamePaused = true;
     	return true;
     }
     
@@ -393,7 +399,7 @@ public class Game extends Activity {
     	switch (item.getItemId()) {
     		case R.id.inGameMenuResume:
     			// Återuppta uppritningen av spelet igen
-    			shallDraw = true;
+    			gamePaused = false;
     		break;
     		case R.id.inGameMenuExit:
     			// Gå till main menu
