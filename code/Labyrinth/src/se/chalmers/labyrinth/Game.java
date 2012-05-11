@@ -1,7 +1,5 @@
 package se.chalmers.labyrinth;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,14 +23,6 @@ import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
-/*
- * Vissa delar av den här koden är tagna från Android developers:
- * http://developer.android.com/resources/samples/AccelerometerPlay/
- * src/com/example/android/accelerometerplay/AccelerometerPlayActivity.html
- * 
- * Dessa är markerade med en kommentar innan.
- * 
- */
 
 public class Game extends Activity {
 	private GameView gameView;
@@ -57,7 +47,6 @@ public class Game extends Activity {
         // För att hålla skärmen igång konstant (Tagen från Android developers)
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, getClass().getName());
-        
         
         gameView = new GameView(this);
         setContentView(gameView);
@@ -102,6 +91,11 @@ public class Game extends Activity {
         private float sensorX;
         private float sensorY;
         private Level currentLevel;
+        
+        // För FPS-beräkning
+        private long fpsBeforeTime;
+        private int fpsFrameCount;
+        private int currentFPS;
 
         public GameView(Context context) {
             super(context);
@@ -342,6 +336,25 @@ public class Game extends Activity {
             paintAA.setColor(color);
             canvas.drawCircle(posX, posY, radius, paintAA);
             
+            // Uppdatera FPS-mätaren
+            fpsFrameCount++;
+            long fpsNowTime = System.currentTimeMillis();
+            long fpsDiff = fpsNowTime - fpsBeforeTime;
+            
+            // Uppdatera den max 1 gång per sekund
+            if (fpsDiff > 1000) {
+            	fpsBeforeTime = fpsNowTime;
+            	currentFPS = (int) (fpsFrameCount / (fpsDiff/1000));
+            	fpsFrameCount = 0;
+            }
+            
+            // Rita ut FPS:en
+            paintAA.setColor(Color.YELLOW);
+            paintAA.setShadowLayer(1, 4, 4, Color.BLACK);
+            paintAA.setTextSize(25);
+            canvas.rotate(90, 10, 5);
+            canvas.drawText(Integer.toString(currentFPS), 10f, 2f, paintAA);
+            
             // Rita om allt igen
 	        invalidate();
         	
@@ -362,6 +375,11 @@ public class Game extends Activity {
     	// Pausa uppritningen av spelet
     	gamePaused = true;
     	return true;
+    }
+    
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+    	gamePaused = false;
     }
     
     @Override
