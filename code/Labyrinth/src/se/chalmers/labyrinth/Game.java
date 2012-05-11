@@ -25,6 +25,14 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class Game extends Activity {
+	/*
+	 * Vissa delar av den här koden är tagna från Android developers:
+	 * http://developer.android.com/resources/samples/AccelerometerPlay/
+	 * src/com/example/android/accelerometerplay/AccelerometerPlayActivity.html
+	 * 
+	 * Dessa är markerade med en kommentar innan.
+	 * 
+	 */
 	private GameView gameView;
     private SensorManager sensorManager;
     private WindowManager windowManager;
