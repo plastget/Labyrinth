@@ -43,6 +43,9 @@ public class Game extends Activity {
     
     private boolean gamePaused;
     
+    // För tidräkning
+    private Timer timer;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +111,7 @@ public class Game extends Activity {
         public GameView(Context context) {
             super(context);
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            timer = new Timer();
             
             // Skapa ett nytt spel
             newGame();
@@ -136,6 +140,9 @@ public class Game extends Activity {
             
             // Sätt spelet i ej pausat läge
             gamePaused = false;
+            
+            // Starta tidräkning
+            timer.start();
         }
        
         
@@ -173,16 +180,25 @@ public class Game extends Activity {
         }
         
         private void showFinalMenu() {
+        	// Pausa spelet och stäng av timern
         	gamePaused = true;
+        	long finnishTime = timer.stop();
         	
+        	// Formatera tiden efter MM:ss:mmm
+            String finnishTimeString = String.format("%02d:%02d:%03d", 
+            		((int) ((finnishTime / 1000) / 60)),
+            		((int) ((finnishTime / 1000) % 60)),
+            		((int) (finnishTime % 1000)));
+            
         	// Bygg upp slutmenyn som en dialog
         	AlertDialog.Builder dialog = new AlertDialog.Builder(Game.this);
         	dialog.setTitle("Game finished!");
-        	dialog.setMessage("Congratulations!\nYou did it!");
+        	dialog.setMessage("Congratulations!\nYou finnished map on " + finnishTimeString + "!");
         	dialog.setNeutralButton("Retry", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					// Initiera ett nytt spel
+					// Initiera ett nytt spel och nollställ timern
 					newGame();
+					timer.reset();
 				}
 			});
         	dialog.setNegativeButton("Main Menu", new DialogInterface.OnClickListener() {
@@ -292,8 +308,6 @@ public class Game extends Activity {
             ball.updatePosition(updPosX, updPosY);
         }
         
-
-        
         @Override
         protected void onDraw(Canvas canvas) {
             final float sensX = sensorX;
@@ -356,12 +370,31 @@ public class Game extends Activity {
             	fpsFrameCount = 0;
             }
             
+            // Visa hur lång tid det gått sen start
+            long playTime = timer.getTime();
+            
+            // Formatera tiden efter MM:ss:mmm
+            String timeElapsed = String.format("%02d:%02d:%03d", 
+            		((int) ((playTime / 1000) / 60)),
+            		((int) ((playTime / 1000) % 60)),
+            		((int) (playTime % 1000)));
+            
+            // Rita ut hur lång tid det gått
+            paintAA.setColor(Color.GREEN);
+            paintAA.setShadowLayer(1, 4, 4, Color.BLACK);
+            paintAA.setTextSize(25);
+        	// Rotera för att få texten rätt
+            canvas.rotate(90, 10, 120);
+            canvas.drawText("TIME: " + timeElapsed, 10f, 120f, paintAA);
+            // Återställ rotationen
+            canvas.rotate(270, 10, 120);
+            
             // Rita ut FPS:en
             paintAA.setColor(Color.YELLOW);
             paintAA.setShadowLayer(1, 4, 4, Color.BLACK);
             paintAA.setTextSize(25);
             canvas.rotate(90, 10, 5);
-            canvas.drawText(Integer.toString(currentFPS), 10f, 2f, paintAA);
+            canvas.drawText("FPS: " + Integer.toString(currentFPS), 10f, 5f, paintAA);
             
             // Rita om allt igen
 	        invalidate();
@@ -380,22 +413,26 @@ public class Game extends Activity {
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-    	// Pausa uppritningen av spelet
+    	// Pausa uppritningen av spelet och timern
     	gamePaused = true;
+    	timer.pause();
     	return true;
     }
     
     @Override
     public void onOptionsMenuClosed(Menu menu) {
+    	// Stäng av pausningen och starta timern
     	gamePaused = false;
+    	timer.resume();
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     		case R.id.inGameMenuResume:
-    			// Återuppta uppritningen av spelet igen
+    			// Återuppta uppritningen av spelet igen och starta räknaren
     			gamePaused = false;
+    			timer.resume();
     		break;
     		case R.id.inGameMenuExit:
     			// Gå till main menu
