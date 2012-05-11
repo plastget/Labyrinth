@@ -56,4 +56,21 @@ public class Ball {
     public void setColor(int color) {
         this.color = color;
     }
+    
+    // Offset getters
+    public float getOffsetTop() {
+    	return posX + radius;
+    }
+    
+    public float getOffsetDown() {
+    	return posX - radius;
+    }
+    
+    public float getOffsetLeft() {
+    	return posY - radius;
+    }
+    
+    public float getOffsetRight() {
+    	return posY + radius;
+    }
 }

@@ -44,4 +44,21 @@ public class Hole {
 	public void setPosY(float posY) {
 		this.posY = posY;
 	}
+	
+    // Offset getters
+    public float getOffsetTop() {
+    	return posX + radius;
+    }
+    
+    public float getOffsetDown() {
+    	return posX - radius;
+    }
+    
+    public float getOffsetLeft() {
+    	return posY - radius;
+    }
+    
+    public float getOffsetRight() {
+    	return posY + radius;
+    }
 }
