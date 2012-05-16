@@ -294,6 +294,47 @@
 	\textbf{Author}				&	Christoffer, Andreas \& Gustav
 \end{tabularx}
 
+\subsection{Add an FPS counter}
+\begin{tabularx}{\textwidth}{XX}
+	\textbf{ID}					&	\thesubsection\\
+	\textbf{Use case/Scenario}	&	Add an FPS counter\\
+	\textbf{Trigger}			&	The player starts a new game\\
+	\textbf{Preconditions}		&	The board is rendered (Req \ref{f-initiation-add_playing_board})\\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Basic path} \newline
+	An FPS counter is added to the playing field.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Exception path} \newline
+	The FPS counter is created behind any object.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Post condition} \newline
+	The FPS counter is visible and working.
+	} \\\\
+	\textbf{Author}				&	Christoffer, Andreas \& Gustav
+\end{tabularx}
+
+\subsection{Add a playing time timer}
+\begin{tabularx}{\textwidth}{XX}
+	\textbf{ID}					&	\thesubsection\\
+	\textbf{Use case/Scenario}	&	Add a playing time counter\\
+	\textbf{Trigger}			&	The player starts a new game\\
+	\textbf{Preconditions}		&	The board is rendered (Req \ref{f-initiation-add_playing_board})\\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Basic path} \newline
+	A playing time timer is added to the playing field.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Exception path} \newline
+	The playing time timer is created behind any object.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Post condition} \newline
+	The playing time timer is visible and working.
+	} \\\\
+	\textbf{Author}				&	Christoffer, Andreas \& Gustav
+\end{tabularx}
 
 
 %%%%%%%%%%%%%%% Steering %%%%%%%%%%%%%%%
@@ -320,10 +361,10 @@
 	\textbf{Authors}				&	Christoffer, Andreas \& Gustav
 \end{tabularx}
 
-\subsection{Steer the ball using virtual keys}
+\subsection{Steer the ball using virtual arrows}
 \begin{tabularx}{\textwidth}{XX}
 	\textbf{ID}					&	\thesubsection\\
-	\textbf{Use case/Scenario}	&	Steer the ball using virtual keys\\
+	\textbf{Use case/Scenario}	&	Steer the ball using virtual arrows\\
 	\textbf{Trigger}			&	The player wants to move the ball\\
 	\textbf{Precondition}		&	The ball is added (Req \ref{f-initiation-add_a_ball}) \newline
 									The virtual arrows are added (Req \ref{f-initiation-add_virtual_arrows})\\\\
@@ -554,8 +595,8 @@
 	\textbf{ID}					&	\thesubsubsection\\
 	\textbf{Use case/Scenario}	&	The main menu shall be able to show the highscores\\
 	\textbf{Trigger}			&	The "Highscore" button in the main menu is pressed\\
-	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\\
-									The high score activity exists (Req \ref{f-activities-high_score-show})\\\\
+	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\newline
+						The high score activity exists (Req \ref{f-activities-high_score-show})\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
 	The highscore activity is initiated.
@@ -576,7 +617,7 @@
 	\textbf{ID}					&	\thesubsubsection\\
 	\textbf{Use case/Scenario}	&	The main menu shall be able to show the settings\\
 	\textbf{Trigger}			&	The "Settings" button in the main menu is pressed\\
-	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\\
+	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\newline
 									The high score activity exists (Req \ref{f-activities-settings_menu-show})\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -598,7 +639,7 @@
 	\textbf{ID}					&	\thesubsubsection\\
 	\textbf{Use case/Scenario}	&	The main menu shall be able to exit the application\\
 	\textbf{Trigger}			&	The "Exit" button in the main menu is pressed\\
-	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\\
+	\textbf{Precondition}		&	The main menu is shown (Req \ref{f-activities-main_menu-show})\newline
 									The user is able to exit the application (Req \ref{nf-application-exit})\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -922,7 +963,8 @@
 	\textbf{ID}					&	\thesubsubsection\\
 	\textbf{Use case/Scenario}	&	The next map can be started from the finished game menu\\
 	\textbf{Trigger}			&	The "Next Map" button is pressed\\
-	\textbf{Precondition}		&	The finished game menu is shown (Req \ref{f-menus-finished_game-show})\\\\
+	\textbf{Precondition}		&	The finished game menu is shown (Req \ref{f-menus-finished_game-show})\newline
+									There is a next map\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
 	A new game with the next map is initated.
@@ -1080,7 +1122,7 @@
 	\textbf{ID}					&	\thesubsection\\
 	\textbf{Use case/Scenario}	&	Vibrate on collision between ball and wall\\
 	\textbf{Trigger}			&	The ball collides with the wall (Req: \ref{f-interaction-ball_with_wall})\\
-	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\\
+	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\newline
 									The device vibration is turned on\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -1102,7 +1144,7 @@
 	\textbf{ID}					&	\thesubsection\\
 	\textbf{Use case/Scenario}	&	Vibrate when ball falls into sink hole\\
 	\textbf{Trigger}			&	The ball falls into a sink hole (Req: \ref{f-interaction-ball_with_sink_hole})\\
-	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\\
+	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\newline
 									The device vibration is turned on\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -1124,7 +1166,7 @@
 	\textbf{ID}					&	\thesubsection\\
 	\textbf{Use case/Scenario}	&	Vibrate when ball falls into final hole\\
 	\textbf{Trigger}			&	The ball falls into the final hole (Req: \ref{f-interaction-ball_with_final_hole})\\
-	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\\
+	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\newline
 									The device vibration is turned on\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -1146,7 +1188,7 @@
 	\textbf{ID}					&	\thesubsection\\
 	\textbf{Use case/Scenario}	&	Vibrate when new high score is set\\
 	\textbf{Trigger}			&	A new high score is set\\
-	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\\
+	\textbf{Precondition}		&	The device shall have a vibrator (Req: \ref{nf-device-shall_have_vibrator})\newline
 									The device vibration is turned on\\\\
 	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
 	\textbf{Basic path} \newline
@@ -1174,6 +1216,48 @@
 
 %%%%%%%%%%%%%%% Device %%%%%%%%%%%%%%%%%
 \section{Device}
+\subsection{Samsung Galaxy S will run the application correctly}
+\begin{tabularx}{\textwidth}{XX}
+	\textbf{ID}					&	\thesubsection\\
+	\textbf{Use case/Scenario}	&	Samsung Galaxy S will run the application correctly\\
+	\textbf{Trigger}			&	-\\
+	\textbf{Precondition}		&	-\\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Basic path} \newline
+	-
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Exception path} \newline
+	Samsung Galaxy S2 is not running the application correctly.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Post condition} \newline
+	Samsung Galaxy S is running the application correctly.
+	} \\\\
+	\textbf{Authors}				&	Christoffer, Andreas \& Gustav
+\end{tabularx}
+
+\subsection{Samsung Galaxy S2 will run the application correctly}
+\begin{tabularx}{\textwidth}{XX}
+	\textbf{ID}					&	\thesubsection\\
+	\textbf{Use case/Scenario}	&	Samsung Galaxy S2 will run the application correctly\\
+	\textbf{Trigger}			&	-\\
+	\textbf{Precondition}		&	-\\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Basic path} \newline
+	-
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Exception path} \newline
+	Samsung Galaxy S2 is not running the application correctly.
+	} \\\\
+	\multicolumn{2}{>{\setlength\hsize{2\hsize}}X}{
+	\textbf{Post condition} \newline
+	Samsung Galaxy S2 is running the application correctly.
+	} \\\\
+	\textbf{Authors}				&	Christoffer, Andreas \& Gustav
+\end{tabularx}
+
 \subsection{The device shall support Android 2.1}
 \begin{tabularx}{\textwidth}{XX}
 	\textbf{ID}					&	\thesubsection\\
